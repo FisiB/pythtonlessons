@@ -49,11 +49,12 @@ print(df)
 # df=pd.read_csv(cs.csv)
 # df.to_csv("dion", index= False)
 
-dt=pd.read_csv(iq_classification.csv)
+dt=pd.read_csv("avgIQpercountry.csv")
 print(dt.info())
 
 front_rows=dt.head()
 print(front_rows)
 subset= dt[["Country","Average IQ"]]
 
-filtered_dt=subset[subset["Average IQ"]<100]
+filtered_dt=subset[subset["Average IQ"]>100]
+print(filtered_dt)
