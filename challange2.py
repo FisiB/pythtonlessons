@@ -76,8 +76,19 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout()  
 plt.show()
 
-x = np.array(monthly_avg) 
-y = x*2  
 
-plt.plot(x, y)  
-plt.show() 
+# Create the line plot for temperature changes over time
+plt.figure(figsize=(12, 6))
+plt.plot(dt['date'], dt['temperature'], color='b', linestyle='-', linewidth=1.5)
+
+# Add title and labels
+plt.title('Temperature Changes Over Time in Tokyo', fontsize=16)
+plt.xlabel('Date', fontsize=14)
+plt.ylabel('Temperature (°C)', fontsize=14)
+
+# Format the x-axis for better readability
+plt.xticks(rotation=45, ha='right')
+
+# Show the plot
+plt.tight_layout()  # Adjust layout to prevent clipping of labels
+plt.show()
