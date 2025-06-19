@@ -24,33 +24,6 @@ dt = dt.dropna(subset=['date', 'temperature'])
 dt['month'] = dt['date'].dt.month
 dt['year_month'] = dt['date'].dt.to_period('M')
 
-def get_season(month):
-    if month in [12, 1, 2]:
-        return 'Winter'
-    elif month in [3, 4, 5]:
-        return 'Spring'
-    elif month in [6, 7, 8]:
-        return 'Summer'
-    else:
-        return 'Autumn'
-
-dt['season'] = dt['month'].apply(get_season)
-
-seasonal_avg = dt.groupby('season')[['temperature']].mean()
-
-print("Seasonal average temperatures:")
-print(seasonal_avg)
-
-plt.figure(figsize=(10, 6))
-seasonal_avg['temperature'].plot(kind='line', marker='o', color='b', linestyle='-', linewidth=2)
-
-plt.title('Average Temperature per Season in Tokyo', fontsize=16)
-plt.xlabel('Season', fontsize=14)
-plt.ylabel('Average Temperature (°C)', fontsize=14)
-
-plt.xticks(rotation=45)
-plt.tight_layout()  
-plt.show()
 monthly_avg = dt.groupby('year_month')[['temperature']].mean()
 
 print("Monthly average temperatures:")
@@ -85,5 +58,33 @@ plt.ylabel('Temperature (°C)', fontsize=14)
 
 plt.xticks(rotation=45, ha='right')
 
+plt.tight_layout()  
+plt.show()
+
+def get_season(month):
+    if month in [12, 1, 2]:
+        return 'Winter'
+    elif month in [3, 4, 5]:
+        return 'Spring'
+    elif month in [6, 7, 8]:
+        return 'Summer'
+    else:
+        return 'Autumn'
+
+dt['season'] = dt['month'].apply(get_season)
+
+seasonal_avg = dt.groupby('season')[['temperature']].mean()
+
+print("Seasonal average temperatures:")
+print(seasonal_avg)
+
+plt.figure(figsize=(10, 6))
+seasonal_avg['temperature'].plot(kind='line', marker='o', color='b', linestyle='-', linewidth=2)
+
+plt.title('Average Temperature per Season in Tokyo', fontsize=16)
+plt.xlabel('Season', fontsize=14)
+plt.ylabel('Average Temperature (°C)', fontsize=14)
+
+plt.xticks(rotation=45)
 plt.tight_layout()  
 plt.show()
