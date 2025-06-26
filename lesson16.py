@@ -25,5 +25,5 @@ def main():
 
     st.write(f"The result of {operation} of {num1} and {num2} is {result}")
 
-if __name__("__main__"):
+if __name__=="__main__":
     main()
