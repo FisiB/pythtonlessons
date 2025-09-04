@@ -36,3 +36,10 @@ if st.button("Click here"):
 
 if st.checkbox("Remember me"):
     st.write("Your info has been saved")
+
+user_input = st.text_input("Enter text","Sample text")
+
+st.write("You wrote:",user_input)
+
+age=st.number_input("Enter Age",min_value=0,max_value=100)
+st.write("Your age is:",age)
