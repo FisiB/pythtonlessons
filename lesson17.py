@@ -153,4 +153,4 @@ with col5:
 
 with st.container():
     st.header("Header inside the container")
-    st.write("This is insde the container")
+    st.write("This is inside the container")
