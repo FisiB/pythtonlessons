@@ -154,3 +154,8 @@ with col5:
 with st.container():
     st.header("Header inside the container")
     st.write("This is inside the container")
+
+st.sidebar.header("Sidebar")
+st.sidebar.write("This is sidebar")
+# st.sidebar.selectbox("Chose an option",["Option1","Option2","Option3"])
+st.sidebar.radio("Chose an option",["Home","Contact us","About us"])
