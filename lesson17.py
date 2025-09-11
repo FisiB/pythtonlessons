@@ -182,7 +182,7 @@ tab1,tab2,tab3=st.tabs(["Tab1","Tab2","Tab3"])
 with tab1:
     st.header("This is tab 1")
 with tab2:
-    with st.form("My form", clear_on_submit=True):
+    with st.form("My forms", clear_on_submit=True):
      name=st.text_input("Name")
      surname=st.text_input("Surname")
      age=st.slider("Age",min_value=0,max_value=100)
