@@ -159,3 +159,20 @@ st.sidebar.header("Sidebar")
 st.sidebar.write("This is sidebar")
 # st.sidebar.selectbox("Chose an option",["Option1","Option2","Option3"])
 st.sidebar.radio("Chose an option",["Home","Contact us","About us"])
+
+with st.form("My form", clear_on_submit=True):
+    name=st.text_input("Name")
+    surname=st.text_input("Surname")
+    age=st.slider("Age",min_value=0,max_value=100)
+    email=st.text_input("Email")
+    terms=st.checkbox("I agree to the terms and conditions")
+    submit_button=st.form_submit_button(label="Submit")
+if submit_button:
+    st.write(f"Name:{name}")
+    st.write(f"Surname:{surname}")
+    st.write(f"Age:{age}")
+    st.write(f"Email:{email}")
+    if terms:
+        st.write("You agreed to the terms and conditions")
+    else:
+        st.write("You did not agree to the terms and conditions")
