@@ -182,6 +182,7 @@ tab1,tab2,tab3=st.tabs(["Tab1","Tab2","Tab3"])
 with tab1:
     st.header("This is tab 1")
 with tab2:
+    st.header("The 2nd tab and forum")
     with st.form("My forms", clear_on_submit=True):
      name=st.text_input("Name")
      surname=st.text_input("Surname")
