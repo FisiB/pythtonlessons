@@ -176,3 +176,28 @@ if submit_button:
         st.write("You agreed to the terms and conditions")
     else:
         st.write("You did not agree to the terms and conditions")
+
+tab1,tab2,tab3=st.tabs(["Tab1","Tab2","Tab3"])
+
+with tab1:
+    st.header("This is tab 1")
+with tab2:
+    with st.form("My form", clear_on_submit=True):
+     name=st.text_input("Name")
+     surname=st.text_input("Surname")
+     age=st.slider("Age",min_value=0,max_value=100)
+     email=st.text_input("Email")
+     terms=st.checkbox("I agree to the terms and conditions")
+     submit_button=st.form_submit_button(label="Submit")
+    if submit_button:
+     st.write(f"Name:{name}")
+     st.write(f"Surname:{surname}")
+     st.write(f"Age:{age}")
+     st.write(f"Email:{email}")
+    if terms:
+        st.write("You agreed to the terms and conditions")
+    else:
+        st.write("You did not agree to the terms and conditions")
+with tab3:
+    st.header("Tab 3")
+    st.write("This is the 3rd tab")
