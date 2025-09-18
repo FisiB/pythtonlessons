@@ -24,3 +24,18 @@ col1.metric("Total books",totalbooks)
 col2.metric("Unqiue names",unique_titels)
 col3.metric("Ratings",avarage_rating)
 col4.metric("Price",avarage_price)
+
+st.subheader("Stats")
+st.write(books_df.head())
+
+col1,col2=st.columns(2)
+
+with col1:
+    st.subheader("Top 10 most sold books")
+    top_titles=books_df["Name"].value_counts().head(10)
+    st.bar_chart(top_titles)
+
+with col2:
+    st.subheader("Top 10 Authors")
+    top_authors=books_df["Author"].value_counts().head(10)
+    st.bar_chart(top_authors)
