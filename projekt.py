@@ -25,6 +25,11 @@ if option == "Home":
  positions = players_df["Pos"].mode()[0]
  players_df["G+A"] = players_df["Gls"] + players_df["Ast"]
  goal_assists = players_df["G+A"].mean()
+ col1, col2, col3, col4 = st.columns(4)
+ col1.metric("Total Players", totalplayers)
+ col2.metric("Unique Player Names", player_names) 
+ col3.metric("Players positions", positions)
+ col4.metric("Goals and assists avarage", goal_assists)
 
 elif option == "Players Nation and Club":
  totalplayers = players_df.shape[0]
