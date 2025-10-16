@@ -22,3 +22,7 @@ def get_items():
 @app.post("/items/{items}")
 def items(items: str, price: float):
     return{"name":items,"price": price}
+
+@app.put("/items/{items}")
+def udate_items(item_id:int,name:str,price:float):
+    return{"item_id":item_id,"name":name,"price":price}
