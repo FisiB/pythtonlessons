@@ -13,8 +13,9 @@ def project(project: Projekt):
 
 @app.get("/projects/")
 def get_projects():
-    sample_projects=Projekt(
-        title:"Sample project",
-        description:"Sample description",
-
+    sample_project=Projekt(
+        title="Sample project",
+        description="Sample description",
+        languages=["Python,Javascript,php"],
+        lead_developer=Developer(emri="john doe", experience=0)
     )

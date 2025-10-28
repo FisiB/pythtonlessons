@@ -28,5 +28,28 @@ if st.button("Create project"):
         "languages":proj_lang.split(","),
         "lead devs":lead_dev_data
     }
-    response=requests.post("http://localhost:8000/developers/",json=dev_data)
+    response=requests.post("http://localhost:8000/projects/",json=proj_data)
     st.json(response.json())
+
+
+st.header("Project Dashboard")
+
+if st.button("Get Projects"):
+    response=requests.get("http://localhost:8000/projects/")
+    project_data=response.json()['projects']
+
+    if project_data:
+        project_df=pd.DataFrame(project_data)
+
+        st.subheader("Project Overview")
+        st.dataframe(project_df)
+
+        st.subheader("Project Details")
+        for project in project_data:
+            st.markdown(f"Title {project['title']}")
+            st.markdown(f"Description {project['description']}")
+            st.markdown(f"Languages {project['languages']}")
+            st.markdown(f"Lead developer {project['lead_developer']['name']} with {project['lead_developer']['experience']} years of experience")
+            st.markdown("---------")
+        else:
+            st.warning("No Projects Found")
