@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 class MovieCreate(BaseModel):
     title:str
-    director:str
+    writer:str
 class Movie(MovieCreate):
     id:int
