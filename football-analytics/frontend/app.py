@@ -18,15 +18,21 @@ if not st.session_state.logged_in:
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
     if st.button("Login"):
-        res = requests.post(f"{API_URL}/login", json={"username": username, "password": password}).json()
+        try:
+            res = requests.post(f"{API_URL}/login", json={"username": username, "password": password}).json()
+        except Exception as e:
+            st.error("Cannot connect to backend")
+            st.stop()
+
         if "error" in res:
-            st.error("Invalid username or password")
+            st.error(res["error"])
         else:
             st.session_state.logged_in = True
-            st.session_state.username = res["username"]
+            st.session_state.username = res.get("username", "")
             st.session_state.admin = res.get("admin", False)
             st.success(f"Welcome, {st.session_state.username}!")
-            st.experimental_rerun()
+            st.stop()  # stops script here so next run shows the main app
+
 else:
     # ---------------- SIDEBAR ----------------
     option = st.sidebar.radio(
