@@ -5,6 +5,7 @@ from analysis.finance_utils import init_db
 init_db()
 
 st.set_page_config(page_title='Personal Finance Tracker', layout='wide')
+
 st.title('💰 Personal Finance Tracker')
 st.write('Use the left sidebar to navigate between pages.')
 
