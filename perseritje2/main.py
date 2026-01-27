@@ -18,13 +18,13 @@ def create_movie(movie:MovieCreate):
 
 @app.get('/movies/',response_model=List[Movie])
 def read_movies():
-    return databse.read_movies()
+    return database.read_movies()
 
 @app.get('/movies/{movie_id}',response_model=Movie)
 def read_movie(movie_id: int):
     movie=database.read_movie(movie_id)
     if movie is None:
-        rasie HTTPException(status_code=404,details="Movie not found")
+        raise HTTPException(status_code=404,details="Movie not found")
         return movie
 
 @app.put('/movies/{movie_id}',response_model=Movie)
@@ -36,7 +36,7 @@ def update_movie(movie_id:int,movie:MovieCreate):
 
 @app.delete('/movies/{movie_id}',response_model=dict)
 def delete_movie(movie_id:int):
-    deleted=databse.delete_movie(movie_id)
+    deleted=database.delete_movie(movie_id)
     if not deleted:
         raise HTTPException(status_code=404,detail="Movie not found")
     return{"message":"Your movie has been deleted"}
