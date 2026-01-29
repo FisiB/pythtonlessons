@@ -60,12 +60,16 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET, algorithm=JWT_ALGO)
     return encoded_jwt
 
-def verify_token(auth_header: Optional[str] = Header(None)) -> str:
+# UPDATED FUNCTION HERE
+def verify_token(auth_header: Optional[str] = Header(None, alias="Authorization")) -> str:
     if not auth_header:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authorization header missing")
+    
     parts = auth_header.split()
+    # Check if it starts with "Bearer" and has exactly 2 parts ("Bearer", "token")
     if parts[0].lower() != "bearer" or len(parts) != 2:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization header")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization header format")
+    
     token = parts[1]
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGO])
@@ -75,7 +79,6 @@ def verify_token(auth_header: Optional[str] = Header(None)) -> str:
         return username
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token invalid or expired")
-
 @app.on_event("startup")
 def startup():
     database.init_db()
