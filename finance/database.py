@@ -98,6 +98,19 @@ def get_transactions(username: str) -> pd.DataFrame:
         conn.close()
     return df
 
+
+def update_transaction(tx_id: int, username: str, t_type: str, category: str, amount: float, date: str) -> bool:
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute(
+        "UPDATE transactions SET type=?, category=?, amount=?, date=? WHERE id=? AND username=?",
+        (t_type, category, float(amount), date, tx_id, username),
+    )
+    changed = c.rowcount
+    conn.commit()
+    conn.close()
+    return changed > 0
+
 def delete_transaction(tx_id: int, username: str) -> bool:
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -106,3 +119,41 @@ def delete_transaction(tx_id: int, username: str) -> bool:
     conn.commit()
     conn.close()
     return changed > 0
+# ... (existing code in database.py) ...
+
+# --- User Goals ---
+def init_db():
+    # ... (keep your existing init_db code) ...
+    
+    # ADD THIS NEW TABLE CREATION inside your existing init_db function:
+    # (Or if you prefer, add it as a separate function, but putting it here ensures it runs on startup)
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute(
+        """
+        CREATE TABLE IF NOT EXISTS user_goals (
+            username TEXT PRIMARY KEY,
+            goal_amount REAL NOT NULL
+        )
+        """
+    )
+    conn.commit()
+    conn.close()
+
+def get_user_goal(username: str) -> Optional[float]:
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT goal_amount FROM user_goals WHERE username = ?", (username,))
+    row = c.fetchone()
+    conn.close()
+    if row:
+        return row[0]
+    return None # Returns None if no goal is set yet
+
+def set_user_goal(username: str, amount: float):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    # INSERT OR REPLACE updates the row if username exists, or creates it if it doesn't
+    c.execute("INSERT OR REPLACE INTO user_goals (username, goal_amount) VALUES (?, ?)", (username, amount))
+    conn.commit()
+    conn.close()

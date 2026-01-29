@@ -130,7 +130,27 @@ def remove_transaction(tx_id: int, username: str = Depends(verify_token)):
         raise HTTPException(status_code=404, detail="Transaction not found or not owned by user")
     return {"message": "deleted"}
 
-# --- New Features ---
+
+
+
+@app.put("/transactions/{tx_id}", response_model=TransactionOut)
+def update_transaction_endpoint(tx_id: int, tx: TransactionIn, username: str = Depends(verify_token)):
+    ok = database.update_transaction(tx_id, username, tx.type, tx.category or "", tx.amount, tx.date)
+    if not ok:
+        raise HTTPException(status_code=404, detail="Transaction not found or not owned by user")
+    
+ 
+    out = {
+        "id": tx_id, 
+        "username": username, 
+        "type": tx.type, 
+        "category": tx.category or "", 
+        "amount": tx.amount, 
+        "date": tx.date or datetime.utcnow().strftime("%Y-%m-%d")
+    }
+    return out
+
+
 
 @app.get("/scrape-currency")
 def scrape_currency(frm: str = "EUR", to: str = "USD"):
@@ -204,3 +224,18 @@ def get_ai_tips(username: str = Depends(verify_token)):
         tips.append(f"💡 Your biggest expense is '{top_cat}'. Check if you can reduce this.")
         
     return {"tips": tips}
+
+class GoalPayload(BaseModel):
+    amount: float
+
+
+
+@app.get("/me/goal")
+def get_goal(username: str = Depends(verify_token)):
+    goal = database.get_user_goal(username)
+    return {"goal": goal if goal is not None else 1000.0}
+
+@app.put("/me/goal")
+def update_goal(payload: GoalPayload, username: str = Depends(verify_token)):
+    database.set_user_goal(username, payload.amount)
+    return {"message": "Goal updated successfully"}
